@@ -1,1 +1,1 @@
-# react-redux-simple-starter
+# express-auth-server-starter

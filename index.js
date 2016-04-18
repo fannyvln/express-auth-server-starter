@@ -3,10 +3,11 @@ const http = require('http');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
+const dotenv = require('dotenv').config();
 const routes = require('./routes');
 
 const app = express();
-mongoose.connect('mongodb://laaksonen:bloodlessrevolver8@ds055485.mlab.com:55485/initialdb');
+mongoose.connect(process.env.DB_CONNECTION);
 
 // App setup
 app.use(morgan('combined'));
