@@ -1,7 +1,7 @@
 {
   "name": "express-auth-server-starter",
   "version": "1.0.0",
-  "description": "",
+  "description": "A starter boilerplate for an express server that implements authentication",
   "repository": {
     "type": "git",
     "url": "https://github.com/laaksonen/express-auth-server-starter"
