@@ -1,17 +1,16 @@
 const jwt = require('jwt-simple');
 const User = require('../models/user');
 const dotenv = require('dotenv').config();
-
-function tokenForUser(user) {
-  const timestamp = new Date().getTime();
-  return jwt.encode({ sub: user.id, iat: timestamp }, process.env.JWT_SECRET);
-}
+const utils = require('../utils');
 
 exports.signin = function (req, res, next) {
   // User has already had their email and password auth'd
   // We just need to give them a token
   console.log(req.user);
-  res.send({ token: tokenForUser(req.user) });
+  res.send({
+    token: utils.generateToken(req.user),
+    user: utils.getCleanUser(req.user),
+  });
 };
 
 exports.signup = function (req, res, next) {
@@ -41,7 +40,10 @@ exports.signup = function (req, res, next) {
         return next(err);
       }
 
-      res.json({ token: tokenForUser(user) });
+      res.json({
+        token: utils.generateToken(user),
+        user: utils.getCleanUser(req.user),
+      });
     });
   });
 };

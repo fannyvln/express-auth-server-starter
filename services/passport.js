@@ -6,6 +6,7 @@ const ExtractJwt = require('passport-jwt').ExtractJwt;
 const LocalStrategy = require('passport-local');
 
 const localOptions = { usernameField: 'email' };
+
 const localLogin = new LocalStrategy(localOptions, (email, password, done) => {
   User.findOne({ email: email }, (err, user) => {
     if (err) {
@@ -19,18 +20,17 @@ const localLogin = new LocalStrategy(localOptions, (email, password, done) => {
       if (err) {
         return done(err);
       }
-
       if (!isMatch) {
         return done(null, false);
       }
-
+      
       return done(null, user);
     });
   });
 });
 
 const jwtOptions = {
-  jwtFromRequest: ExtractJwt.fromHeader('authorization'),
+  jwtFromRequest: ExtractJwt.fromHeader('Authorization'),
   secretOrKey: process.env.JWT_SECRET,
 };
 
