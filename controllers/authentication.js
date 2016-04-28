@@ -4,9 +4,6 @@ const dotenv = require('dotenv').config();
 const utils = require('../utils');
 
 exports.signin = function (req, res, next) {
-  // User has already had their email and password auth'd
-  // We just need to give them a token
-  console.log(req.user);
   res.send({
     token: utils.generateToken(req.user),
     user: utils.getCleanUser(req.user),
@@ -42,8 +39,13 @@ exports.signup = function (req, res, next) {
 
       res.json({
         token: utils.generateToken(user),
-        user: utils.getCleanUser(req.user),
+        user: utils.getCleanUser(user),
       });
     });
   });
+};
+
+exports.authWithToken = function (req, res, next) {
+
+
 };

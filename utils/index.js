@@ -7,14 +7,13 @@ function generateToken(user) {
 
 function getCleanUser(user) {
   const cleanUser = {};
-  const safeKeys = ['email'];
+  const safeKeys = ['_id', 'email'];
 
   safeKeys.forEach((key) => {
     cleanUser[key] = user[key];
   });
   return cleanUser;
 }
-
 
 module.exports = {
   generateToken: generateToken,

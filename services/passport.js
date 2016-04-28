@@ -23,14 +23,14 @@ const localLogin = new LocalStrategy(localOptions, (email, password, done) => {
       if (!isMatch) {
         return done(null, false);
       }
-      
+
       return done(null, user);
     });
   });
 });
 
 const jwtOptions = {
-  jwtFromRequest: ExtractJwt.fromHeader('Authorization'),
+  jwtFromRequest: ExtractJwt.fromHeader('authorization'),
   secretOrKey: process.env.JWT_SECRET,
 };
 
