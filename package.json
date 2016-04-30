@@ -23,6 +23,7 @@
   "author": "Lauri Laaksonen <lauri@laaksonen.io> (http://laaksonen.io)",
   "license": "MIT",
   "dependencies": {
+    "async": "^2.0.0-rc.3",
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.15.0",
     "dotenv": "^2.0.0",
@@ -30,6 +31,7 @@
     "jwt-simple": "^0.5.0",
     "mongoose": "^4.4.12",
     "morgan": "^1.7.0",
+    "nodemailer": "^2.3.2",
     "passport": "^0.3.2",
     "passport-jwt": "^2.0.0",
     "passport-local": "^1.0.0"

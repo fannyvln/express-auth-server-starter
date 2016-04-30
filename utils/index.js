@@ -7,7 +7,11 @@ function generateToken(user) {
 
 function getCleanUser(user) {
   const cleanUser = {};
-  const safeKeys = ['_id', 'email'];
+  const safeKeys = [
+    '_id',
+    'email',
+    'isEmailVerified',
+  ];
 
   safeKeys.forEach((key) => {
     cleanUser[key] = user[key];
