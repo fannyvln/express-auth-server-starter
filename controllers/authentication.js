@@ -20,9 +20,7 @@ exports.signup = (req, res, next) => {
   }
 
   User.findOne({ email: email }, (err, existingUser) => {
-    if (err) {
-      return next(err);
-    }
+    if (err) return next(err);
 
     if (existingUser) {
       return res.status(422).send({ error: 'Email is in use' });
@@ -35,9 +33,7 @@ exports.signup = (req, res, next) => {
     });
 
     user.save((err) => {
-      if (err) {
-        return next(err);
-      }
+      if (err) return next(err);
 
       emailUtils.sendVerificationEmail(user, req.headers.host);
 
@@ -78,8 +74,25 @@ exports.verifyEmail = (req, res, next) => {
         user: utils.getCleanUser(user),
       });
     });
-
   });
+};
 
+exports.resendVerificationEmail = (req, res, next) => {
+  User.findById({
+    '_id': req.user._id,
+  }, (err, user) => {
+    if (err) throw err;
 
+    emailUtils.sendVerificationEmail(user, req.headers.host, (err) => {
+      if (err) {
+        res.status(404).json(err);
+      } else {
+        res.send({ message: 'Email was resent' });
+      }
+    });
+
+    res.json({
+      message: 'success!',
+    });
+  });
 };

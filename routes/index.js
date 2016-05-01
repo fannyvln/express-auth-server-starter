@@ -12,5 +12,7 @@ module.exports = function (app) {
   app.get('/api/validatetoken', requireAuth, (req, res) => {
     res.send({ user: utils.getCleanUser(req.user) });
   });
+
   app.get('/api/verifyemail/:token', Authentication.verifyEmail);
+  app.get('/api/resendverificationemail', requireAuth, Authentication.resendVerificationEmail);
 };
