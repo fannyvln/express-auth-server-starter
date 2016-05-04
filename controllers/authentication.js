@@ -92,7 +92,24 @@ exports.resendVerificationEmail = (req, res, next) => {
     });
 
     res.json({
-      message: 'success!',
+      message: 'success',
     });
+  });
+};
+
+exports.forgotPassword = (req, res, next) => {
+
+  emailUtils.sendForgotPasswordEmail(req.body.email, req.headers.host, (err) => {
+    if (err) {
+      res.status(404).json(err);
+      console.log('error and shit');
+    } else {
+      console.log('success and shit');
+      res.send({ message: 'Email was sent' });
+    }
+  });
+
+  res.json({
+    message: 'success',
   });
 };

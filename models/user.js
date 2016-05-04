@@ -8,6 +8,8 @@ const userSchema = new Schema({
   isEmailVerified: { type: Boolean, required: true },
   verifyEmailToken: String,
   verifyEmailTokenExpires: Date,
+  resetPasswordToken: String,
+  resetPasswordTokenExpires: Date,
 });
 
 userSchema.pre('save', function (next) {

@@ -15,4 +15,6 @@ module.exports = function (app) {
 
   app.get('/api/verifyemail/:token', Authentication.verifyEmail);
   app.get('/api/resendverificationemail', requireAuth, Authentication.resendVerificationEmail);
+
+  app.post('/api/forgot', Authentication.forgotPassword);
 };
