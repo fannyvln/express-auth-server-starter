@@ -1,5 +1,6 @@
 const express = require('express');
 const http = require('http');
+const compress = require('compression');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
@@ -16,6 +17,7 @@ app.use(function (req, res, next) {
   res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
   next();
 });
+app.use(compress());
 app.use(morgan('combined'));
 app.use(bodyParser.json({ type: '*/*' }));
 routes(app);

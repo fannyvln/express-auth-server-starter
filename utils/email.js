@@ -13,7 +13,6 @@ function sendVerificationEmail(user, host, finalCB) {
       });
     },
     function (token, done) {
-      console.log('here bitch');
       user.verifyEmailToken = token;
       // Make token expire in 24 hours
       user.verifyEmailTokenExpires = Date.now() + 3600000 * 24;
@@ -61,7 +60,7 @@ function sendVerificationEmail(user, host, finalCB) {
   });
 }
 
-function sendForgotPasswordEmail(email, host, finalCB) {
+function sendForgotPasswordEmail(user, host, finalCB) {
   async.waterfall([
     function (done) {
       crypto.randomBytes(20, function (err, buf) {
@@ -70,20 +69,12 @@ function sendForgotPasswordEmail(email, host, finalCB) {
       });
     },
     function (token, done) {
-      User.findOne({ email }, function (err, user) {
-        if (!user) {
-          return res.status(404).json({
-            message: 'No account with that email address exists',
-          });
-        }
+      user.resetPasswordToken = token;
+      // Token expires in 1 hour
+      user.resetPasswordTokenExpires = Date.now() + 3600000;
 
-        user.resetPasswordToken = token;
-        // Token expires in 1 hour
-        user.resetPasswordTokenExpires = Date.now() + 3600000;
-
-        user.save(function (err) {
-          done(err, user);
-        });
+      user.save(function (err) {
+        done(err, user);
       });
     },
     function (user, done) {
@@ -124,7 +115,26 @@ function sendForgotPasswordEmail(email, host, finalCB) {
   });
 }
 
+function sendPasswordHasBeenResetEmail(user, host) {
+  const transporter = nodemailer.createTransport({
+    service: 'SendGrid',
+    auth: {
+      user: process.env.SENDGRID_USER,
+      pass: process.env.SENDGRID_PASSWORD,
+    },
+  });
+  const mailOptions = {
+    to: user.email,
+    from: 'support@demo.com',
+    subject: 'Your password has been changed',
+    text: `Hello,\n\n'
+    This is a confirmation that the password for your account${user.email}has just been changed.\n`,
+  };
+  transporter.sendMail(mailOptions);
+}
+
 module.exports = {
-  sendVerificationEmail: sendVerificationEmail,
-  sendForgotPasswordEmail: sendForgotPasswordEmail,
+  sendVerificationEmail,
+  sendForgotPasswordEmail,
+  sendPasswordHasBeenResetEmail,
 };

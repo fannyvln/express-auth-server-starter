@@ -20,6 +20,6 @@ function getCleanUser(user) {
 }
 
 module.exports = {
-  generateToken: generateToken,
-  getCleanUser: getCleanUser,
+  generateToken,
+  getCleanUser,
 };
