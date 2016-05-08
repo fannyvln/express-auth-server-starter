@@ -34,7 +34,6 @@ exports.signup = (req, res, next) => {
 
     user.save((err) => {
       if (err) return next(err);
-
       emailUtils.sendVerificationEmail(user, req.headers.host);
 
       res.json({
@@ -168,7 +167,42 @@ exports.changePassword = (req, res, next) => {
     user.save(err => {
       if (err) next(err);
       res.json({
-        message: 'password changed',
+        token: utils.generateToken(user),
+        user: utils.getCleanUser(user),
+      });
+    });
+  });
+};
+
+exports.updateEmail = (req, res, next) => {
+  User.findById({
+    '_id': req.user._id,
+  }, (err, user) => {
+    if (err) {
+      if (err.code === 11000) {
+        return res.status(404).json({
+          message: 'Email address already associated with an account',
+        });
+      } else {
+        throw err;
+      }
+    }
+    if (!user) {
+      return res.status(404).json({
+        message: 'No account with that id exists',
+      });
+    }
+
+    user.email = req.body.newEmail;
+    user.isEmailVerified = false;
+
+    user.save((err) => {
+      if (err) return next(err);
+      emailUtils.sendVerificationEmail(user, req.headers.host);
+
+      res.json({
+        token: utils.generateToken(user),
+        user: utils.getCleanUser(user),
       });
     });
   });
