@@ -20,4 +20,5 @@ module.exports = function (app) {
   app.post('/api/reset/:token', authController.resetPassword);
   app.post('/api/changepassword', requireAuth, authController.changePassword);
   app.post('/api/updateEmail', requireAuth, authController.updateEmail);
+  app.post('/api/deleteaccount', requireAuth, authController.deleteAccount);
 };

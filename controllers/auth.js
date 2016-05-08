@@ -175,9 +175,7 @@ exports.changePassword = (req, res, next) => {
 };
 
 exports.updateEmail = (req, res, next) => {
-  User.findById({
-    '_id': req.user._id,
-  }, (err, user) => {
+  User.findById({ '_id': req.user._id }, (err, user) => {
     if (err) {
       if (err.code === 11000) {
         return res.status(404).json({
@@ -205,5 +203,12 @@ exports.updateEmail = (req, res, next) => {
         user: utils.getCleanUser(user),
       });
     });
+  });
+};
+
+exports.deleteAccount = (req, res, next) => {
+  User.remove({ '_id': req.user._id }, (err, user) => {
+    if (err) return next(err);
+    res.json({ message: 'account deleted' });
   });
 };
