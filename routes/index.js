@@ -13,6 +13,8 @@ module.exports = function (app) {
     res.send({ user: utils.getCleanUser(req.user) });
   });
 
+  app.post('/api/validateEmail', authController.validateEmail);
+
   app.get('/api/verifyemail/:token', authController.verifyEmail);
   app.get('/api/resendverificationemail', requireAuth, authController.resendVerificationEmail);
 

@@ -44,6 +44,18 @@ exports.signup = (req, res, next) => {
   });
 };
 
+exports.validateEmail = (req, res, next) => {
+  const email = req.body.email || req.body.newEmail;
+  console.log(email);
+  User.findOne({ email }, (err, user) => {
+    if (err) next(err);
+    if (user) {
+      return res.status(403).send({ email: 'email is not unique' });
+    }
+    res.json({});
+  });
+};
+
 exports.verifyEmail = (req, res, next) => {
   const token = req.params.token;
   if (!token) {
