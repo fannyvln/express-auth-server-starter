@@ -4,6 +4,10 @@ const dotenv = require('dotenv').config();
 const utils = require('../utils');
 const emailUtils = require('../utils/email');
 
+/**
+ * POST /user/signin
+ * Sign in using email and passsword.
+ */
 exports.signin = (req, res, next) => {
   res.send({
     token: utils.generateToken(req.user),
@@ -11,6 +15,10 @@ exports.signin = (req, res, next) => {
   });
 };
 
+/**
+ * POST /user/signin
+ * Create a new local account.
+ */
 exports.signup = (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
@@ -44,6 +52,10 @@ exports.signup = (req, res, next) => {
   });
 };
 
+/**
+ * POST /user/validate-email
+ * Check if an email exists or if it can be used.
+ */
 exports.validateEmail = (req, res, next) => {
   const email = req.body.email || req.body.newEmail;
   console.log(email);
@@ -56,6 +68,39 @@ exports.validateEmail = (req, res, next) => {
   });
 };
 
+/**
+ * GET /email/verification
+ * Create a new verification token, then send a new verification email with that token.
+ */
+exports.resendVerificationEmail = (req, res, next) => {
+  User.findById({
+    '_id': req.user._id,
+  }, (err, user) => {
+    if (err) next(err);
+    if (!user) {
+      return res.status(404).json({
+        message: 'No account with that id exists',
+      });
+    }
+
+    emailUtils.sendVerificationEmail(user, req.headers.host, (err) => {
+      if (err) {
+        res.status(404).json(err);
+      } else {
+        res.send({ message: 'Email was resent' });
+      }
+    });
+
+    res.json({
+      message: 'success',
+    });
+  });
+};
+
+/**
+ * POST /verify-email/:token
+ * Process the verify email request.
+ */
 exports.verifyEmail = (req, res, next) => {
   const token = req.params.token;
   if (!token) {
@@ -89,37 +134,16 @@ exports.verifyEmail = (req, res, next) => {
   });
 };
 
-exports.resendVerificationEmail = (req, res, next) => {
-  User.findById({
-    '_id': req.user._id,
-  }, (err, user) => {
-    if (err) next(err);
-    if (!user) {
-      return res.status(404).json({
-        message: 'No account with that id exists',
-      });
-    }
-
-    emailUtils.sendVerificationEmail(user, req.headers.host, (err) => {
-      if (err) {
-        res.status(404).json(err);
-      } else {
-        res.send({ message: 'Email was resent' });
-      }
-    });
-
-    res.json({
-      message: 'success',
-    });
-  });
-};
-
-exports.forgotPassword = (req, res, next) => {
+/**
+ * POST /forgot
+ * Create a random token, then the send an email with a reset link.
+ */
+exports.forgot = (req, res, next) => {
   User.findOne({ email: req.body.email }, function (err, user) {
     if (err) next(err);
     if (!user) {
       return res.status(404).json({
-        message: 'No account with that email address exists',
+        error: 'Account doesn\'t exist',
       });
     }
 
@@ -137,7 +161,11 @@ exports.forgotPassword = (req, res, next) => {
   });
 };
 
-exports.resetPassword = (req, res, next) => {
+/**
+ * POST /reset/:token
+ * Process the reset password request.
+ */
+exports.reset = (req, res, next) => {
   User.findOne({
     resetPasswordToken: req.params.token,
     resetPasswordTokenExpires: { $gt: Date.now() },
@@ -164,28 +192,10 @@ exports.resetPassword = (req, res, next) => {
   });
 };
 
-exports.changePassword = (req, res, next) => {
-  User.findById({
-    '_id': req.user._id,
-  }, (err, user) => {
-    if (err) next(err);
-    if (!user) {
-      return res.status(404).json({
-        message: 'No account with that id exists',
-      });
-    }
-
-    user.password = req.body.newPassword;
-    user.save(err => {
-      if (err) next(err);
-      res.json({
-        token: utils.generateToken(user),
-        user: utils.getCleanUser(user),
-      });
-    });
-  });
-};
-
+/**
+ * POST /account/email
+ * Update account email.
+ */
 exports.updateEmail = (req, res, next) => {
   User.findById({ '_id': req.user._id }, (err, user) => {
     if (err) {
@@ -218,6 +228,36 @@ exports.updateEmail = (req, res, next) => {
   });
 };
 
+/**
+ * POST /account/password
+ * Change account password.
+ */
+exports.changePassword = (req, res, next) => {
+  User.findById({
+    '_id': req.user._id,
+  }, (err, user) => {
+    if (err) next(err);
+    if (!user) {
+      return res.status(404).json({
+        message: 'No account with that id exists',
+      });
+    }
+
+    user.password = req.body.newPassword;
+    user.save(err => {
+      if (err) next(err);
+      res.json({
+        token: utils.generateToken(user),
+        user: utils.getCleanUser(user),
+      });
+    });
+  });
+};
+
+/**
+ * POST /account/delete
+ * Delete account.
+ */
 exports.deleteAccount = (req, res, next) => {
   User.remove({ '_id': req.user._id }, (err, user) => {
     if (err) return next(err);

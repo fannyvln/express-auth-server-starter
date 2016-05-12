@@ -35,7 +35,7 @@ function sendVerificationEmail(user, host, finalCB) {
         subject: 'Verify Email',
         text: `Hey placeholdername,
           Please click the link below to verify your account:
-          http://${host}/verifyemail/${user.verifyEmailToken}\n
+          http://${host}/verify-email/${user.verifyEmailToken}\n
           Thanks,
           Demo Team`,
       };
@@ -127,8 +127,8 @@ function sendPasswordHasBeenResetEmail(user, host) {
     to: user.email,
     from: 'support@demo.com',
     subject: 'Your password has been changed',
-    text: `Hello,\n\n'
-    This is a confirmation that the password for your account${user.email}has just been changed.\n`,
+    text: `Hello,\n
+    This is a confirmation that the password for your account ${user.email} has just been changed.\n`,
   };
   transporter.sendMail(mailOptions);
 }

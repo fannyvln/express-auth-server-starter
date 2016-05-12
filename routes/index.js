@@ -7,20 +7,31 @@ const requireSignin = passport.authenticate('local', { session: false });
 const requireAuth = passport.authenticate('jwt', { session: false });
 
 module.exports = function (app) {
+  // Sign in using email and password.
   app.post('/api/signin', requireSignin, authController.signin);
+  // Creat a new local account.
   app.post('/api/signup', authController.signup);
-  app.get('/api/validatetoken', requireAuth, (req, res) => {
+  // Check for token validity.
+  app.get('/api/validate-token', requireAuth, (req, res) => {
     res.send({ user: utils.getCleanUser(req.user) });
   });
+  // Check if an email exists or if it can be used.
+  app.post('/api/validate-email', authController.validateEmail);
 
-  app.post('/api/validateEmail', authController.validateEmail);
+  // Create a new verification token, then send a new verification email with that token.
+  app.get('/api/email/verification', requireAuth, authController.resendVerificationEmail);
+  // Process the verify email request.
+  app.get('/api/verify-email/:token', authController.verifyEmail);
 
-  app.get('/api/verifyemail/:token', authController.verifyEmail);
-  app.get('/api/resendverificationemail', requireAuth, authController.resendVerificationEmail);
+  // Create a random token, then the send an email with a reset link.
+  app.post('/api/forgot', authController.forgot);
+  // Process the reset password request.
+  app.post('/api/reset/:token', authController.reset);
 
-  app.post('/api/forgot', authController.forgotPassword);
-  app.post('/api/reset/:token', authController.resetPassword);
-  app.post('/api/changepassword', requireAuth, authController.changePassword);
-  app.post('/api/updateEmail', requireAuth, authController.updateEmail);
-  app.post('/api/deleteaccount', requireAuth, authController.deleteAccount);
+  // Update account email
+  app.post('/api/account/email', requireAuth, authController.updateEmail);
+  // Change account password
+  app.post('/api/account/password', requireAuth, authController.changePassword);
+  // Delete account
+  app.post('/api/account/delete', requireAuth, authController.deleteAccount);
 };
