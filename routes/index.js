@@ -11,11 +11,11 @@ module.exports = function (app) {
   app.post('/api/signin', requireSignin, authController.signin);
   // Creat a new local account.
   app.post('/api/signup', authController.signup);
-  // Check for token validity.
+  // Check if token is valid.
   app.get('/api/validate-token', requireAuth, (req, res) => {
     res.send({ user: utils.getCleanUser(req.user) });
   });
-  // Check if an email exists or if it can be used.
+  // Check if an email exists or if it is available.
   app.post('/api/validate-email', authController.validateEmail);
 
   // Create a new verification token, then send a new verification email with that token.
@@ -24,14 +24,27 @@ module.exports = function (app) {
   app.get('/api/verify-email/:token', authController.verifyEmail);
 
   // Create a random token, then the send an email with a reset link.
-  app.post('/api/forgot', authController.forgot);
+  app.post('/api/email/forgot', authController.forgot);
   // Process the reset password request.
   app.post('/api/reset/:token', authController.reset);
 
-  // Update account email
+  // Update name associated with account.
+  app.post('/api/account/name', requireAuth, authController.updateName);
+  // Update email associated with account.
   app.post('/api/account/email', requireAuth, authController.updateEmail);
-  // Change account password
+  // Change account password.
   app.post('/api/account/password', requireAuth, authController.changePassword);
-  // Delete account
+  // Delete account.
   app.post('/api/account/delete', requireAuth, authController.deleteAccount);
+
+  // Get all posts.
+  app.get('/api/posts');
+  // Create a new post.
+  app.post('/api/posts');
+  // Get posts by id.
+  app.get('/api/posts/:id');
+  // Delete post by id.
+  app.delete('/api/posts/:id');
+  // Validate new post.
+  app.post('/api/posts/validate');
 };

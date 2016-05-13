@@ -10,6 +10,7 @@ function getCleanUser(user) {
   const safeKeys = [
     '_id',
     'email',
+    'name',
     'isEmailVerified',
   ];
 

@@ -5,6 +5,7 @@ const bcrypt = require('bcrypt-nodejs');
 const userSchema = new Schema({
   email: { type: String, unique: true, required: true, lowercase: true },
   password: { type: String, required: true },
+  name: String,
   isEmailVerified: { type: Boolean, required: true },
   verifyEmailToken: String,
   verifyEmailTokenExpires: Date,

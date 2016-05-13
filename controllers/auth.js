@@ -5,7 +5,7 @@ const utils = require('../utils');
 const emailUtils = require('../utils/email');
 
 /**
- * POST /user/signin
+ * POST /api/user/signin
  * Sign in using email and passsword.
  */
 exports.signin = (req, res, next) => {
@@ -16,12 +16,13 @@ exports.signin = (req, res, next) => {
 };
 
 /**
- * POST /user/signin
+ * POST /api/user/signin
  * Create a new local account.
  */
 exports.signup = (req, res, next) => {
   const email = req.body.email;
-  const password = req.body.password;
+  const password = req.body.password.trim();
+  const name = req.body.name.trim();
 
   if (!email || !password) {
     return res.status(422).send({ error: 'You must provide email and password' });
@@ -37,6 +38,7 @@ exports.signup = (req, res, next) => {
     const user = new User({
       email,
       password,
+      name,
       isEmailVerified: false,
     });
 
@@ -53,8 +55,8 @@ exports.signup = (req, res, next) => {
 };
 
 /**
- * POST /user/validate-email
- * Check if an email exists or if it can be used.
+ * POST /api/user/validate-email
+ * Check if an email exists or if it is available.
  */
 exports.validateEmail = (req, res, next) => {
   const email = req.body.email || req.body.newEmail;
@@ -69,7 +71,7 @@ exports.validateEmail = (req, res, next) => {
 };
 
 /**
- * GET /email/verification
+ * GET /api/email/verification
  * Create a new verification token, then send a new verification email with that token.
  */
 exports.resendVerificationEmail = (req, res, next) => {
@@ -98,7 +100,7 @@ exports.resendVerificationEmail = (req, res, next) => {
 };
 
 /**
- * POST /verify-email/:token
+ * GET /api/verify-email/:token
  * Process the verify email request.
  */
 exports.verifyEmail = (req, res, next) => {
@@ -135,7 +137,7 @@ exports.verifyEmail = (req, res, next) => {
 };
 
 /**
- * POST /forgot
+ * POST /api/email/forgot
  * Create a random token, then the send an email with a reset link.
  */
 exports.forgot = (req, res, next) => {
@@ -162,7 +164,7 @@ exports.forgot = (req, res, next) => {
 };
 
 /**
- * POST /reset/:token
+ * POST /api/reset/:token
  * Process the reset password request.
  */
 exports.reset = (req, res, next) => {
@@ -193,15 +195,45 @@ exports.reset = (req, res, next) => {
 };
 
 /**
- * POST /account/email
- * Update account email.
+ * POST /api/account/name
+ * Update name associated with account.
+ */
+exports.updateName = (req, res, next) => {
+  User.findById({ '_id': req.user._id }, (err, user) => {
+    if (err) next(err);
+    if (!user) {
+      return res.status(404).json({
+        error: 'No account with that id exists',
+      });
+    }
+
+    if (req.body.newName === user.name) {
+      return res.status(400).json({
+        error: 'Identical name',
+      });
+    }
+
+    user.name = req.body.newName;
+    user.save((err) => {
+      if (err) next(err);
+      res.json({
+        token: utils.generateToken(user),
+        user: utils.getCleanUser(user),
+      });
+    });
+  });
+};
+
+/**
+ * POST /api/account/email
+ * Update email associated with account.
  */
 exports.updateEmail = (req, res, next) => {
   User.findById({ '_id': req.user._id }, (err, user) => {
     if (err) {
       if (err.code === 11000) {
         return res.status(404).json({
-          message: 'Email address already associated with an account',
+          error: 'Email address already associated with an account',
         });
       } else {
         throw err;
@@ -229,13 +261,11 @@ exports.updateEmail = (req, res, next) => {
 };
 
 /**
- * POST /account/password
+ * POST /api/account/password
  * Change account password.
  */
 exports.changePassword = (req, res, next) => {
-  User.findById({
-    '_id': req.user._id,
-  }, (err, user) => {
+  User.findById({ '_id': req.user._id }, (err, user) => {
     if (err) next(err);
     if (!user) {
       return res.status(404).json({
@@ -255,7 +285,7 @@ exports.changePassword = (req, res, next) => {
 };
 
 /**
- * POST /account/delete
+ * POST /api/account/delete
  * Delete account.
  */
 exports.deleteAccount = (req, res, next) => {
