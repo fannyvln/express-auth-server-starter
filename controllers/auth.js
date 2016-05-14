@@ -71,7 +71,7 @@ exports.validateEmail = (req, res, next) => {
 };
 
 /**
- * GET /api/email/verification
+ * GET /api/send-email/verification
  * Create a new verification token, then send a new verification email with that token.
  */
 exports.resendVerificationEmail = (req, res, next) => {
@@ -137,7 +137,7 @@ exports.verifyEmail = (req, res, next) => {
 };
 
 /**
- * POST /api/email/forgot
+ * POST /api/send-email/forgot
  * Create a random token, then the send an email with a reset link.
  */
 exports.forgot = (req, res, next) => {
