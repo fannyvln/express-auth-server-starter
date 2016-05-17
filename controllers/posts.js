@@ -19,20 +19,44 @@ exports.fetchPosts = (req, res, next) => {
 };
 
 /**
- * POST /api/posts
+ * GET /api/posts/:postId
  * Fetch post by id.
  */
 exports.fetchPost = (req, res, next) => {
-
-  console.log(req.params.postId);
   Post.findById({ '_id': req.params.postId }, (err, post) => {
     if (err) next(err);
     if (!post) {
-      return res.status(404).json({
-        error: 'No post with that id exists',
-      });
+      return res.status(404).json({ error: 'No post with that id exists' });
     }
+
     res.json(post);
+  });
+};
+
+/**
+ * DELETE /api/posts/delete/:postId/
+ * Delete post by id.
+ */
+exports.deletePost = (req, res, next) => {
+  Post.findById({ '_id': req.params.postId }, (err, post) => {
+    if (err) next(err);
+    if (!post) {
+      return res.status(404).json({ error: 'No post with that id exists' });
+    }
+
+    if (post.authorId !== req.user._id.toString()) {
+      return res.status(403).json({ error: 'User does not have permission to delete post' });
+    }
+
+    Post.findByIdAndRemove({ '_id': req.params.postId }, (err, post) => {
+      if (err) next(err);
+      if (!post) {
+        return res.status(404).json({ error: 'No post with that id exists' });
+      }
+      res.json({
+        success: 'Post was deleted',
+      });
+    });
   });
 };
 
@@ -54,7 +78,7 @@ exports.createPost = (req, res, next) => {
     title: title.trim(),
     content: content.trim(),
     authorId: req.user._id,
-    name: req.user.name,
+    authorName: req.user.name,
   });
 
   post.save((err, post) => {

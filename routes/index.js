@@ -43,7 +43,7 @@ module.exports = function (app) {
   // Fetch post by id.
   app.get('/api/posts/:postId', postsController.fetchPost);
   // Delete post by id.
-  app.delete('/api/posts/:postId');
+  app.delete('/api/posts/:postId', requireAuth, postsController.deletePost);
   // Create a new post.
   app.post('/api/posts', requireAuth, postsController.createPost);
 };
