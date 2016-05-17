@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const timestamps = require('mongoose-timestamp');
 const Schema = mongoose.Schema;
 
 const postSchema = new Schema({
@@ -7,6 +8,8 @@ const postSchema = new Schema({
   title: String,
   content: String,
 });
+
+postSchema.plugin(timestamps);
 
 const ModelClass = mongoose.model('post', postSchema);
 

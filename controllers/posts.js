@@ -7,7 +7,8 @@ const Post = require('../models/post');
 exports.fetchPosts = (req, res, next) => {
   Post
     .find({})
-    .limit(10)
+    .limit(100)
+    .sort({ createdAt: -1 })
     .exec((err, posts) => {
       if (err) {
         console.log(err);
@@ -15,6 +16,24 @@ exports.fetchPosts = (req, res, next) => {
       }
       res.json(posts);
     });
+};
+
+/**
+ * POST /api/posts
+ * Fetch post by id.
+ */
+exports.fetchPost = (req, res, next) => {
+
+  console.log(req.params.postId);
+  Post.findById({ '_id': req.params.postId }, (err, post) => {
+    if (err) next(err);
+    if (!post) {
+      return res.status(404).json({
+        error: 'No post with that id exists',
+      });
+    }
+    res.json(post);
+  });
 };
 
 /**
@@ -35,6 +54,7 @@ exports.createPost = (req, res, next) => {
     title: title.trim(),
     content: content.trim(),
     authorId: req.user._id,
+    name: req.user.name,
   });
 
   post.save((err, post) => {

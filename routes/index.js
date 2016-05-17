@@ -40,12 +40,10 @@ module.exports = function (app) {
 
   // Fetch all posts.
   app.get('/api/posts', postsController.fetchPosts);
+  // Fetch post by id.
+  app.get('/api/posts/:postId', postsController.fetchPost);
+  // Delete post by id.
+  app.delete('/api/posts/:postId');
   // Create a new post.
   app.post('/api/posts', requireAuth, postsController.createPost);
-  // Get post by id.
-  app.get('/api/posts/:id');
-  // Delete post by id.
-  app.delete('/api/posts/:id');
-  // Validate new post.
-  app.post('/api/posts/validate');
 };
