@@ -214,7 +214,7 @@ exports.updateName = (req, res, next) => {
     }
 
     user.name = req.body.newName;
-    user.save((err) => {
+    user.save(err => {
       if (err) next(err);
       res.json({
         token: utils.generateToken(user),

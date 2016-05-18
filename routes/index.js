@@ -42,6 +42,8 @@ module.exports = function (app) {
   app.get('/api/posts', postsController.fetchPosts);
   // Fetch post by id.
   app.get('/api/posts/:postId', postsController.fetchPost);
+  // Edit post by id.
+  app.post('/api/posts/edit/:postId', requireAuth, postsController.editPost);
   // Delete post by id.
   app.delete('/api/posts/:postId', requireAuth, postsController.deletePost);
   // Create a new post.
