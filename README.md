@@ -1,11 +1,12 @@
 # Express Auth Server Starter
 
-**Live Demo**: http://auth-starter.laaksonen.io
+[Express Auth Server Starter](https://github.com/laaksonen/express-auth-server-starter) +
+[React Redux Auth Starter](https://github.com/laaksonen/react-redux-auth-starter) === http://auth-starter.laaksonen.io **(Live Demo)**
 
 A boilerplate for an **Express** API server that handles token based user
 authentication with [JSON Web Tokens (JWT)](https://jwt.io). Because *React
 Redux Auth Starter* is simply an API, a client-side application is also required
-enable users to interact with the API in the browser.
+for effective use.
 [React Redux Auth Starter](https://github.com/laaksonen/react-redux-auth-starter)
 is a React & Redux application made just for that purpose, and it is designed
 to work in unison with *Express Auth Server Starter*.
