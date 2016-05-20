@@ -4,11 +4,11 @@
 
 A boilerplate for an **Express** API server that handles token based user
 authentication with [JSON Web Tokens (JWT)](https://jwt.io). Because *React
-Redux Auth Starter* is simply an API, we also need a client-side application to
-enable users to interact with the API.
+Redux Auth Starter* is simply an API, a client-side application is also required
+enable users to interact with the API in the browser.
 [React Redux Auth Starter](https://github.com/laaksonen/react-redux-auth-starter)
-is a React & Redux application made just for that, and it is designed to work in
-unison with *Express Auth Server Starter*.
+is a React & Redux application made just for that purpose, and it is designed
+to work in unison with *Express Auth Server Starter*.
 
 ## Table of Contents
 1. [Features](#features)
@@ -43,7 +43,7 @@ $ cd express-auth-server-starter
 $ npm install
 ```
 Once *express-auth-server-starter* is installed, you need to create a `.env` file
-in the root folder of the project. The `.env` files is used to store environment
+in the project root folder. The `.env` files is used to store environment
 variables that we wish to keep secret. We are then using
 [dotenv](https://github.com/motdotla/dotenv) to load these variables inside our
 application. Git has been set to ignore `*./env` files so that
@@ -55,15 +55,15 @@ JWT_SECRET=A_SECRET_STRING_HERE
 SENDGRID_USER=YOUR_SENDGRID_USERNAME_HERE
 SENGRID_PASSWORD=YOUR_SENDGRID_PASSWORD_HERE
 ```
-Once you have `.env` saved you can run `npm start` to start the server.
+Once `.env` is saved you can run `npm start` to start the server.
 
 ### Installing and running the client-side application
 If you want to interact with the API in the browser, a client-side application
 is needed. [React Redux Auth Starter](https://github.com/laaksonen/react-redux-auth-starter) is a client-side
-React & Redux application made just for that.
+React & Redux application made just for that purpose.
 To get it installed and running you have two options. The first option is to
 initialize and update the git submodule which comes included with the API and
-is located in the client directory. To do that, open up a new terminal tab or
+is located at the client directory. To do that, open up a new terminal tab or
 window and navigate to the root of the project. Then simply run:
 ```bash
 git submodule ini
@@ -105,18 +105,18 @@ the application running.
 When choosing a hosting option you first need to decide if you want to go the
 managed or the self-managed route. When using managed hosting such as
 [Heroku](https://heroku.com), someone else takes care of managing the server for
-you. In herokus case, all you need to do is git push the application to heroku
+you. In heroku's case, all you need to do is git push the application to heroku
 and they take care of the rest.
 If you instead would like to go the self-managed route and be responsible for
 your server, you could look into the service such as
 [Digital Ocean](https://www.digitalocean.com/). Once you have a virtual server
-running simply install Node on it and follow the steps at
+running, simply install Node on it and follow the steps at
 [Getting Started](#getting-started).
 
 ### Hosting the client-side application
 You could deploy the client-side application in the same manner as the API server,
 but I personally find that there is a better way. Since our client-side application
-is entirely static, would can simply upload the compiled files to a service that
+is entirely static, you can simply upload the compiled files to a service that
 specializes in delivering static content. One such service is Amazon's
 [AWS S3](https://aws.amazon.com/s3/).
 Simply compile your app with `npm run deploy`, sign up on Amazon Web Services,
