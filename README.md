@@ -2,10 +2,10 @@
 
 **Live Demo**: http://auth-starter.laaksonen.io
 
-A boilerplate for an **Express** API that handles token based user authentication
-with [JSON Web Tokens (JWT)](https://jwt.io). Because *React Redux Auth Starter*
-is simply an API, we also need a client-side application to enable users to
-interact with the API.
+A boilerplate for an **Express** API server that handles token based user
+authentication with [JSON Web Tokens (JWT)](https://jwt.io). Because *React
+Redux Auth Starter* is simply an API, we also need a client-side application to
+enable users to interact with the API.
 [React Redux Auth Starter](https://github.com/laaksonen/react-redux-auth-starter)
 is a React & Redux application made just for that, and it is designed to work in
 unison with *Express Auth Server Starter*.
@@ -62,9 +62,9 @@ If you want to interact with the API in the browser, a client-side application
 is needed. [React Redux Auth Starter](https://github.com/laaksonen/react-redux-auth-starter) is a client-side
 React & Redux application made just for that.
 To get it installed and running you have two options. The first option is to
-initialize and update the git submodule which is included with the API and located
-in the client directory. To do that, make sure you are at the root of the project
-and run:
+initialize and update the git submodule which comes included with the API and
+is located in the client directory. To do that, open up a new terminal tab or
+window and navigate to the root of the project. Then simply run:
 ```bash
 git submodule ini
 git submodule update
@@ -76,7 +76,8 @@ You can now navigate to http://localhost:3000 in your browser and you should fin
 the application running.
 
 The second option is to install the client-side application separately from
-the API. If you wish to do that, you can simply run the following commands:
+the API. If you wish to do that, open up a new terminal tab or window and run
+the following commands:
 ```bash
 $ git clone https://github.com/laaksonen/react-redux-auth-starter.git
 $ cd react-redux-auth-starter
@@ -86,5 +87,46 @@ $ npm start
 You can now navigate to http://localhost:3000 in your browser and you should find
 the application running.
 
-
 ## Application Structure
+```
+.
+├── client (git submodule)    # Client-side react & redux application
+├── controllers               # API controllers
+├── models                    # Mongoose models
+├── routes                    # API routes
+├── services                  # External services
+│   └──passport.js            # Passport configuration
+├── utils                     # Utility functions
+└── index.js                  # Express server
+```
+
+## Deployment
+### Hosting the API
+When choosing a hosting option you first need to decide if you want to go the
+managed or the self-managed route. When using managed hosting such as
+[Heroku](https://heroku.com), someone else takes care of managing the server for
+you. In herokus case, all you need to do is git push the application to heroku
+and they take care of the rest.
+If you instead would like to go the self-managed route and be responsible for
+your server, you could look into the service such as
+[Digital Ocean](https://www.digitalocean.com/). Once you have a virtual server
+running simply install Node on it and follow the steps at
+[Getting Started](#getting-started).
+
+### Hosting the client-side application
+You could deploy the client-side application in the same manner as the API server,
+but I personally find that there is a better way. Since our client-side application
+is entirely static, would can simply upload the compiled files to a service that
+specializes in delivering static content. One such service is Amazon's
+[AWS S3](https://aws.amazon.com/s3/).
+Simply compile your app with `npm run deploy`, sign up on Amazon Web Services,
+create an S3 bucket, configure it as a static website, and finally upload
+everything from the static folder into the bucket. NOTE: The API server is not a
+static website and therefore it will have to be hosted elsewhere.
+
+## Contributing
+I am more than happy to accept any external contributions to the project in the
+form of feedback, bug reports, or even better - pull requests.
+
+## License
+MIT
