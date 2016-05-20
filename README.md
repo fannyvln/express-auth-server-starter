@@ -7,8 +7,8 @@ with [JSON Web Tokens (JWT)](https://jwt.io). Because *React Redux Auth Starter*
 is simply an API, we also need a client-side application to enable users to
 interact with the API.
 [React Redux Auth Starter](https://github.com/laaksonen/react-redux-auth-starter)
-is a JavaScript application just for that, and it is designed to work in unison
-with *Express Auth Server Starter*.
+is a React & Redux application made just for that, and it is designed to work in
+unison with *Express Auth Server Starter*.
 
 ## Table of Contents
 1. [Features](#features)
@@ -28,7 +28,7 @@ with *Express Auth Server Starter*.
 | [Passport](http://passportjs.org/) | Authentication middleware for Node.js |
 | [JSON Web Tokens (JWT)](https://jwt.io) | Authentication tokens |
 | [jwt-simple](https://www.npmjs.com/package/jwt-simple) | JWT encoding and decoding |
-| [Nodemailer](https://github.com/nodemailer/nodemailer) | Email |
+| [Nodemailer](https://github.com/nodemailer/nodemailer) | Sending email |
 
 ## Requirements
 * [Node.js 6.0+](http://nodejs.org)
@@ -36,18 +36,19 @@ with *Express Auth Server Starter*.
 * [SendGrid](https://sendgrid.com/) account
 
 ## Getting Started
-### Installing and starting the API
+### Installing and running the API
 ```bash
 $ git clone https://github.com/laaksonen/express-auth-server-starter.git
 $ cd express-auth-server-starter
 $ npm install
 ```
-Once express-auth-server-starter is installed, you need to create a `.env` file
-in the root folder of the project. `.env` is used to store environment variables
-that we wish to keep secret. We are then using
+Once *express-auth-server-starter* is installed, you need to create a `.env` file
+in the root folder of the project. The `.env` files is used to store environment
+variables that we wish to keep secret. We are then using
 [dotenv](https://github.com/motdotla/dotenv) to load these variables inside our
 application. Git has been set to ignore `*./env` files so that
-it won't be committed to the repository. The followed variables are required:
+it won't be committed to the repository. You need to include the following
+variables:
 ```
 DB_CONNECTION=YOUR_MONGODB_CONNECTION_HERE
 JWT_SECRET=A_SECRET_STRING_HERE
@@ -56,14 +57,34 @@ SENGRID_PASSWORD=YOUR_SENDGRID_PASSWORD_HERE
 ```
 Once you have `.env` saved you can run `npm start` to start the server.
 
-### Installing and starting the client-side application
+### Installing and running the client-side application
 If you want to interact with the API in the browser, a client-side application
-is needed. [React Redux Auth Starter](https://github.com/laaksonen/react-redux-auth-starter) is a JavaScript
-application just for that. In a new terminal tab or window, do the following:
+is needed. [React Redux Auth Starter](https://github.com/laaksonen/react-redux-auth-starter) is a client-side
+React & Redux application made just for that.
+To get it installed and running you have two options. The first option is to
+initialize and update the git submodule which is included with the API and located
+in the client directory. To do that, make sure you are at the root of the project
+and run:
+```bash
+git submodule ini
+git submodule update
+cd client
+npm install
+npm start
+```
+You can now navigate to http://localhost:3000 in your browser and you should find
+the application running.
+
+The second option is to install the client-side application separately from
+the API. If you wish to do that, you can simply run the following commands:
 ```bash
 $ git clone https://github.com/laaksonen/react-redux-auth-starter.git
 $ cd react-redux-auth-starter
 $ npm install
 $ npm start
 ```
-Now you can navigate to http://localhost:3000 in your browser and use the application.
+You can now navigate to http://localhost:3000 in your browser and you should find
+the application running.
+
+
+## Application Structure
