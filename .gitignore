@@ -6,6 +6,6 @@
 coverage
 *.pid
 *.seed
+*.swp
 *.env
 node_modules
-config.js
