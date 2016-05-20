@@ -1,7 +1,9 @@
 # Express Auth Server Starter
 
-[Express Auth Server Starter](https://github.com/laaksonen/express-auth-server-starter) +
-[React Redux Auth Starter](https://github.com/laaksonen/react-redux-auth-starter) === http://auth-starter.laaksonen.io **(Live Demo)**
+[Express Auth Server Starter](https://github.com/laaksonen/express-auth-server-starter)
+**+**
+[React Redux Auth Starter](https://github.com/laaksonen/react-redux-auth-starter)
+**+** http://auth-starter.laaksonen.io **(Live Demo)**
 
 A boilerplate for an **Express** API server that handles token based user
 authentication with [JSON Web Tokens (JWT)](https://jwt.io). Because *React
