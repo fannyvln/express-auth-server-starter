@@ -13,10 +13,10 @@ for effective use.
 is a React & Redux application built just for that purpose, and it is designed
 to work in unison with *Express Auth Server Starter*.
 
-This boilerplate uses an express server to handle API requests, stores data in
-a mongodb database, provides email dispatching, unit testing, linting, and more.
-The goal of this project is to implement token-based user authentication and to
-provide a **robust** and **scalable** structure on which to build on.
+This boilerplate stores data in a mongodb database, provides email dispatching,
+unit testing, linting, and more. The goal of this project is to implement
+token-based user authentication and to provide a **robust** and **scalable**
+structure on which to build on.
 
 ## Table of Contents
 1. [Requirements](#requirements)
@@ -113,18 +113,18 @@ information, there is no longer a need for a session store. This decoupling
 makes the application more scalable, and it also makes it easier to later expand
 to different platforms, such as native mobile applications.
 
-### Asynchronous Server-Side form Validation
+### Asynchronous Server-Side Form Validation
 Aside from basic client-side form validation, asynchronous server-side
 validation is performed when the email field is blurred in the sign up form.
 When the email field is blurred, a request is sent to the server to check if
 the email in question is available, or if it is already in use.
 
-### Account management
+### Account Management
 Users are able to update their name, email, and password; restore a forgotten
 password; and delete their account. New users are sent a verification email
 with a token which they can then use to verify their account.
 
-### Posts by users
+### Posts by Users
 Users are able to create posts which are then stored in a database. When a user
 is logged in, all posts (by all users) are displayed on the homepage with the
 most recent post first. Users are able to edit and delete their own posts.
