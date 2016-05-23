@@ -35,7 +35,7 @@ function sendVerificationEmail(user, origin, finalCB) {
         subject: 'Verify Email',
         text: `Hey placeholdername,
           Please click the link below to verify your account:
-          http://${origin}/verify-email/${user.verifyEmailToken}\n
+          ${origin}/verify-email/${user.verifyEmailToken}\n
           Thanks,
           Demo Team`,
       };
@@ -91,7 +91,7 @@ function sendForgotPasswordEmail(user, origin, finalCB) {
         subject: 'Password reset request',
         text: `You are receiving this because you (or someone else) have requested the reset of the password for your account.
           Please click on the following link, or paste this into your browser to complete the process:
-          http://${origin}/reset/${user.resetPasswordToken}
+          ${origin}/reset/${user.resetPasswordToken}
           If you did not request this, please ignore this email and your password will remain unchanged.`,
       };
       transporter.sendMail(mailOptions, (err) => {
