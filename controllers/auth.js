@@ -16,7 +16,7 @@ exports.signin = (req, res, next) => {
 };
 
 /**
- * POST /api/user/signin
+ * POST /api/user/signup
  * Create a new local account.
  */
 exports.signup = (req, res, next) => {
@@ -44,7 +44,7 @@ exports.signup = (req, res, next) => {
 
     user.save((err) => {
       if (err) return next(err);
-      emailUtils.sendVerificationEmail(user, req.headers.host);
+      emailUtils.sendVerificationEmail(user, req.headers.origin);
 
       res.json({
         token: utils.generateToken(user),
@@ -85,7 +85,7 @@ exports.resendVerificationEmail = (req, res, next) => {
       });
     }
 
-    emailUtils.sendVerificationEmail(user, req.headers.host, (err) => {
+    emailUtils.sendVerificationEmail(user, req.headers.origin, (err) => {
       if (err) {
         res.status(404).json(err);
       } else {
@@ -149,7 +149,7 @@ exports.forgot = (req, res, next) => {
       });
     }
 
-    emailUtils.sendForgotPasswordEmail(user, req.headers.host, (err) => {
+    emailUtils.sendForgotPasswordEmail(user, req.headers.origin, (err) => {
       if (err) {
         res.status(404).json(err);
       } else {
@@ -183,7 +183,7 @@ exports.reset = (req, res, next) => {
     user.resetPasswordToken = undefined;
     user.resetPasswordTokenExpires = undefined;
 
-    emailUtils.sendPasswordHasBeenResetEmail(user, req.headers.host);
+    emailUtils.sendPasswordHasBeenResetEmail(user);
 
     user.save(err => {
       res.json({

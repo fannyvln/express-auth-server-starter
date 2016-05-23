@@ -4,7 +4,7 @@ const nodemailer = require('nodemailer');
 const dotenv = require('dotenv').config();
 const User = require('../models/user');
 
-function sendVerificationEmail(user, host, finalCB) {
+function sendVerificationEmail(user, origin, finalCB) {
   async.waterfall([
     function (done) {
       crypto.randomBytes(20, function (err, buf) {
@@ -35,7 +35,7 @@ function sendVerificationEmail(user, host, finalCB) {
         subject: 'Verify Email',
         text: `Hey placeholdername,
           Please click the link below to verify your account:
-          http://${host}/verify-email/${user.verifyEmailToken}\n
+          http://${origin}/verify-email/${user.verifyEmailToken}\n
           Thanks,
           Demo Team`,
       };
@@ -60,7 +60,7 @@ function sendVerificationEmail(user, host, finalCB) {
   });
 }
 
-function sendForgotPasswordEmail(user, host, finalCB) {
+function sendForgotPasswordEmail(user, origin, finalCB) {
   async.waterfall([
     function (done) {
       crypto.randomBytes(20, function (err, buf) {
@@ -91,7 +91,7 @@ function sendForgotPasswordEmail(user, host, finalCB) {
         subject: 'Password reset request',
         text: `You are receiving this because you (or someone else) have requested the reset of the password for your account.
           Please click on the following link, or paste this into your browser to complete the process:
-          http://${host}/reset/${user.resetPasswordToken}
+          http://${origin}/reset/${user.resetPasswordToken}
           If you did not request this, please ignore this email and your password will remain unchanged.`,
       };
       transporter.sendMail(mailOptions, (err) => {
@@ -115,7 +115,7 @@ function sendForgotPasswordEmail(user, host, finalCB) {
   });
 }
 
-function sendPasswordHasBeenResetEmail(user, host) {
+function sendPasswordHasBeenResetEmail(user) {
   const transporter = nodemailer.createTransport({
     service: 'SendGrid',
     auth: {

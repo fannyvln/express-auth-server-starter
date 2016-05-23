@@ -9,43 +9,43 @@ const requireAuth = passport.authenticate('jwt', { session: false });
 
 module.exports = function (app) {
   // Sign in using email and password.
-  app.post('/api/signin', requireSignin, authController.signin);
+  app.post('/signin', requireSignin, authController.signin);
   // Creat a new local account.
-  app.post('/api/signup', authController.signup);
+  app.post('/signup', authController.signup);
   // Check if token is valid.
-  app.get('/api/validate-token', requireAuth, (req, res) => {
+  app.get('/validate-token', requireAuth, (req, res) => {
     res.send({ user: utils.getCleanUser(req.user) });
   });
   // Check if an email exists or if it is available.
-  app.post('/api/validate-email', authController.validateEmail);
+  app.post('/validate-email', authController.validateEmail);
 
   // Create a new verification token, then send a new verification email with that token.
-  app.get('/api/send-email/verification', requireAuth, authController.resendVerificationEmail);
+  app.get('/send-email/verification', requireAuth, authController.resendVerificationEmail);
   // Process the verify email request.
-  app.get('/api/verify-email/:token', authController.verifyEmail);
+  app.get('/verify-email/:token', authController.verifyEmail);
 
   // Create a random token, then the send an email with a reset link.
-  app.post('/api/send-email/forgot', authController.forgot);
+  app.post('/send-email/forgot', authController.forgot);
   // Process the reset password request.
-  app.post('/api/reset/:token', authController.reset);
+  app.post('/reset/:token', authController.reset);
 
   // Update name associated with account.
-  app.post('/api/account/name', requireAuth, authController.updateName);
+  app.post('/account/name', requireAuth, authController.updateName);
   // Update email associated with account.
-  app.post('/api/account/email', requireAuth, authController.updateEmail);
+  app.post('/account/email', requireAuth, authController.updateEmail);
   // Change account password.
-  app.post('/api/account/password', requireAuth, authController.changePassword);
+  app.post('/account/password', requireAuth, authController.changePassword);
   // Delete account.
-  app.post('/api/account/delete', requireAuth, authController.deleteAccount);
+  app.post('/account/delete', requireAuth, authController.deleteAccount);
 
   // Fetch all posts.
-  app.get('/api/posts', postsController.fetchPosts);
+  app.get('/posts', postsController.fetchPosts);
   // Fetch post by id.
-  app.get('/api/posts/:postId', postsController.fetchPost);
+  app.get('/posts/:postId', postsController.fetchPost);
   // Edit post by id.
-  app.post('/api/posts/edit/:postId', requireAuth, postsController.editPost);
+  app.post('/posts/edit/:postId', requireAuth, postsController.editPost);
   // Delete post by id.
-  app.delete('/api/posts/:postId', requireAuth, postsController.deletePost);
+  app.delete('/posts/:postId', requireAuth, postsController.deletePost);
   // Create a new post.
-  app.post('/api/posts', requireAuth, postsController.createPost);
+  app.post('/posts', requireAuth, postsController.createPost);
 };

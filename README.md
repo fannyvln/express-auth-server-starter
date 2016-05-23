@@ -56,12 +56,12 @@ SENGRID_PASSWORD=YOUR_SENDGRID_PASSWORD_HERE
 Once `.env` is saved you can run `npm start` to start the server.
 
 ### Installing and Running the Client-Side Application
-If you want to interact with the API in the browser, a client-side application
-is needed. [React Redux Auth Starter](https://github.com/laaksonen/react-redux-auth-starter) is a client-side
-React & Redux application built just for that purpose.
-To get it installed and running you have two options. The first option is to
-initialize and update the git submodule which comes included with the API and
-is located at the client directory. To do that, open up a new terminal tab or
+If you want to be able to interact with the API in the browser, a client-side
+application is needed. [React Redux Auth Starter](https://github.com/laaksonen/react-redux-auth-starter) is a React &
+Redux application built just for that purpose.
+To get it installed and running, you have two options. The first is to
+initialize and update the git submodule which comes included with the API (located
+at the client directory). To do that, open up a new terminal tab or
 window and navigate to the root of the project. Then simply run:
 ```bash
 git submodule ini
@@ -70,8 +70,8 @@ cd client
 npm install
 npm start
 ```
-You can now navigate to http://localhost:3000 in your browser and you should find
-the application running.
+You can now navigate to http://localhost:3000 in your browser where you should
+find the application running.
 
 The second option is to install the client-side application separately from
 the API. If you wish to do that, open up a new terminal tab or window and run
@@ -82,8 +82,8 @@ $ cd react-redux-auth-starter
 $ npm install
 $ npm start
 ```
-You can now navigate to http://localhost:3000 in your browser and you should find
-the application running.
+You can now navigate to http://localhost:3000 in your browser where you should
+find the application running.
 
 ## Technologies Used
 | **Technology** | **Description** |
@@ -102,7 +102,7 @@ the application running.
 ### Decoupled Client/API Architecture
 This project is designed to allow for separate deployments of the client-side
 JavaScript application and the server-side API. This decoupling makes the
-application more scalable, and it also makes it easier to later expand to
+application more scalable, and it also makes it easier to later expand into
 different platforms, such as native mobile applications.
 
 ### Token-Based User Authentication
@@ -111,7 +111,7 @@ authenticates users using [JSON Web Tokens (JWT's)](https://jwt.io/). This means
 that, since a token is a self-contained entity that conveys all of the user
 information, there is no longer a need for a session store. This decoupling
 makes the application more scalable, and it also makes it easier to later expand
-to different platforms, such as native mobile applications.
+into other platforms, such as native mobile applications.
 
 ### Asynchronous Server-Side Form Validation
 Aside from basic client-side form validation, asynchronous server-side
@@ -135,9 +135,9 @@ This is very useful when building scalable applications. All new features are
 grouped together in the modules folder.
 
 ## Application Structure
-I prefer to keep all the routes in one place to get a good overview of the
-application. The different routes are then given controller functions which are
-grouped by functionality in the controllers directory.
+I prefer to keep all routes in one place for a good overview of the flow of the
+application. The different routes are then given controller functions which
+are grouped by functionality in the controllers directory.
 ```
 .
 ├── client (git submodule)    # Client-side react & redux application
@@ -172,10 +172,12 @@ specializes in delivering static content. One such service is Amazon's
 [AWS S3](https://aws.amazon.com/s3/).
 Simply compile your app with `npm run deploy`, sign up on Amazon Web Services,
 create an S3 bucket, configure it as a static website, and finally upload
-everything from the static folder into the bucket.
-**NOTE**: The API server is not a
+everything from the `dist` folder (except the `*.map` files) into the bucket.
+
+**Note**: The API server is not a
 static website and therefore it will have to be hosted elsewhere.
-**NOTE**: If the API server and client-side application are hosted at different
+
+**Note**: If the API server and client-side application are hosted at different
 locations, you need to provide the client-side application with the `API_URL`
 environment variable that maps to where the API is hosted. It could look something
 like this: `API_URL=http://139.59.143.200:8000 npm run deploy`.
