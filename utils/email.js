@@ -115,7 +115,7 @@ function sendForgotPasswordEmail(user, origin, finalCB) {
   });
 }
 
-function sendPasswordHasBeenResetEmail(user) {
+function sendPasswordHasBeenChangedEmail(user) {
   const transporter = nodemailer.createTransport({
     service: 'SendGrid',
     auth: {
@@ -136,5 +136,5 @@ function sendPasswordHasBeenResetEmail(user) {
 module.exports = {
   sendVerificationEmail,
   sendForgotPasswordEmail,
-  sendPasswordHasBeenResetEmail,
+  sendPasswordHasBeenChangedEmail,
 };

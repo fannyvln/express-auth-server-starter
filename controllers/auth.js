@@ -183,7 +183,7 @@ exports.reset = (req, res, next) => {
     user.resetPasswordToken = undefined;
     user.resetPasswordTokenExpires = undefined;
 
-    emailUtils.sendPasswordHasBeenResetEmail(user);
+    emailUtils.sendPasswordHasBeenChangedEmail(user);
 
     user.save(err => {
       res.json({
@@ -250,7 +250,7 @@ exports.updateEmail = (req, res, next) => {
 
     user.save((err) => {
       if (err) return next(err);
-      emailUtils.sendVerificationEmail(user, req.headers.host);
+      emailUtils.sendVerificationEmail(user, req.headers.origin);
 
       res.json({
         token: utils.generateToken(user),
@@ -274,6 +274,8 @@ exports.changePassword = (req, res, next) => {
     }
 
     user.password = req.body.newPassword;
+
+    emailUtils.sendPasswordHasBeenChangedEmail(user);
     user.save(err => {
       if (err) next(err);
       res.json({
